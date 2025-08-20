@@ -9,7 +9,7 @@ const Wishlist = () => {
   const customerId = localStorage.getItem('customer_id');
   const token = localStorage.getItem('token');
 
-  // ✅ Redirect if not logged in
+  //  Redirect if not logged in
   useEffect(() => {
     if (!customerId || !token) {
       navigate('/login');
@@ -18,7 +18,8 @@ const Wishlist = () => {
 
   const fetchWishlist = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/customer/wishlist/${customerId}`, {
+      const res = await fetch(`https://citimart-backend.onrender.com/api/customer/wishlist/<customerId>
+`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -90,7 +91,7 @@ const Wishlist = () => {
   }, [customerId, token]);
 
   if (!customerId || !token) {
-    return null; // Avoid flashing content before redirect
+    return null; 
   }
 
   if (wishlist.length === 0) {
