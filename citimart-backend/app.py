@@ -6,7 +6,7 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__)
-    CORS(app, supports_credentials=True, origins=["http://localhost:3000"], methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"])
+    CORS(app, supports_credentials=True, origins=["http://localhost:3000","https://citimart-frontend.onrender.com"], methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"])
     
     @app.route("/")
     def home():
