@@ -35,7 +35,7 @@ def create_app():
     app.register_blueprint(offers_bp, url_prefix="/api/offers")
     app.register_blueprint(cart_bp, url_prefix="/api/cart")
 
-    #  MOVE THIS INSIDE
+    
     @app.route('/uploads/<filename>')
     def uploaded_file(filename):
         return send_from_directory('static/uploads', filename)
