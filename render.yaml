@@ -39,4 +39,8 @@ services:
     envVars:
       - key: REACT_APP_BACKEND_URL
         value: "https://citimart-backend.onrender.com"
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html    
       
