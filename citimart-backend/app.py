@@ -26,17 +26,16 @@ def create_app():
 
 
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
-    app.register_blueprint(customer_bp, url_prefix='/customer')
-    app.register_blueprint(vendor_bp, url_prefix='/vendor')
-    app.register_blueprint(admin_bp, url_prefix='/admin')
-    app.register_blueprint(product_bp)
-    app.register_blueprint(vendor_dashboard_bp)
-    app.register_blueprint(admin_dashboard_bp, url_prefix='/api')
-    app.register_blueprint(offers_bp, url_prefix="/api")
-    app.register_blueprint(cart_bp)
+    app.register_blueprint(customer_bp, url_prefix='/api/customer')
+    app.register_blueprint(vendor_bp, url_prefix='/api/vendor')
+    app.register_blueprint(admin_bp, url_prefix='/api/admin')
+    app.register_blueprint(product_bp, url_prefix='/api/products')
+    app.register_blueprint(vendor_dashboard_bp, url_prefix='/api/vendor-dashboard')
+    app.register_blueprint(admin_dashboard_bp, url_prefix='/api/admin-dashboard')
+    app.register_blueprint(offers_bp, url_prefix="/api/offers")
+    app.register_blueprint(cart_bp, url_prefix="/api/cart")
 
-
-    # ✅ MOVE THIS INSIDE
+    #  MOVE THIS INSIDE
     @app.route('/uploads/<filename>')
     def uploaded_file(filename):
         return send_from_directory('static/uploads', filename)
