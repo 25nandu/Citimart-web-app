@@ -1,0 +1,152 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  background: #2c3e50;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar.collapsed .logo {
+  font-size: 0;
+}
+
+.sidebar.collapsed .logo::first-letter {
+  font-size: 1.5rem;
+}
+
+.sidebar.collapsed .navItem span,
+.sidebar.collapsed .logoutBtn span {
+  display: none;
+}
+
+.sidebarHeader {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #3498db;
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.toggleBtn:hover {
+  color: #3498db;
+}
+
+.nav {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.navItem.active {
+  background: #3498db;
+  color: white;
+}
+
+.sidebarFooter {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.logoutBtn:hover {
+  color: #3498db;
+}
+
+.main {
+  flex: 1;
+  background: #f8f9fa;
+  overflow-y: auto;
+}
+
+.header {
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 3.1rem;
+  overflow-y: hidden;
+}
+
+.headerContent h2 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #34495e;
+}
+
+.content {
+  padding: 2rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.settingsIcon {
+  font-size: 1.2rem;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.settingsIcon:hover {
+  color: #007bff;
+}

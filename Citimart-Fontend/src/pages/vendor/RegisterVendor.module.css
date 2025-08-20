@@ -1,0 +1,134 @@
+.form {
+  max-width: 720px;
+  margin: 3rem auto;
+  background: linear-gradient(to bottom right, #ffffff, #eaf9ff);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  transition: all 0.3s ease;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #0a8894;
+  font-weight: 600;
+  letter-spacing: 1px;
+  overflow-y: hidden;
+}
+
+.fieldset {
+  border: 1px solid #cce6f2;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.75rem;
+  background-color: #f9fdff;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #0b4f6c;
+  padding: 0 8px;
+  margin-left: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #123456;
+  font-size: 0.95rem;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  margin-top: 0.25rem;
+  border: 1px solid #ccddee;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #0a8894;
+  box-shadow: 0 0 0 3px rgba(10, 136, 148, 0.2);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.error {
+  color: #d93025;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.terms {
+  margin-bottom: 1.75rem;
+  font-size: 0.95rem;
+}
+
+.submitButton {
+  background: linear-gradient(to right, #0a8894, #06767f);
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1.05rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.submitButton:hover {
+  background: linear-gradient(to right, #06767f, #055c63);
+  transform: translateY(-2px);
+}
+
+.successMessage {
+  text-align: center;
+  padding: 2rem;
+  background-color: #e6fff2;
+  border-left: 6px solid #26a96c;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 128, 0, 0.15);
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.successMessage h2 {
+  color: #237e4b;
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
