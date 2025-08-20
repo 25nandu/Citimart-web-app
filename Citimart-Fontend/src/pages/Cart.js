@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Cart.module.css';
-import { FaHeart, FaRegHeart } from 'react-icons/fa'; // for wishlist heart icons
+import { FaHeart, FaRegHeart } from 'react-icons/fa'; 
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
