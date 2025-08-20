@@ -15,56 +15,7 @@ from database import (
 customer_bp = Blueprint("customer", __name__)
 
 # --------------------- CART ---------------------
-'''
-@customer_bp.route("/cart/<customer_id>", methods=["GET"])
-@token_required
-def get_cart(current_user, customer_id):
-    if customer_id != str(current_user["_id"]):
-        return jsonify({"error": "Unauthorized access"}), 403
 
-    cart = cart_collection.find_one({"customer_id": customer_id})
-    if not cart or "items" not in cart:
-        return jsonify({"items": []})
-
-    enriched_items = []
-
-    for item in cart["items"]:
-        product_id = item.get("product_id")
-        if not product_id:
-            continue
-
-        product_id_obj = ObjectId(product_id) if isinstance(product_id, str) else product_id
-        product = products_collection.find_one({"_id": product_id_obj})
-
-        if not product:
-            continue
-
-        # Prepare pairs_with image previews
-        pairs_with_images = []
-        for pid in product.get("pairs_with", []):
-            try:
-                pid_obj = ObjectId(pid) if isinstance(pid, str) else pid
-                paired_product = products_collection.find_one({"_id": pid_obj}, {"images": 1})
-                if paired_product and paired_product.get("images"):
-                    pairs_with_images.append(paired_product["images"][0])  # first image
-            except Exception:
-                continue
-
-        enriched_items.append({
-            "product": {
-                "_id": str(product["_id"]),
-                "name": product.get("name"),
-                "price": product.get("price"),
-                "images": product.get("images", []),
-                "pairs_with": [str(pid) for pid in product.get("pairs_with", [])],
-                "pairs_with_images": pairs_with_images,
-            },
-            "size": item.get("size", "N/A"),
-            "quantity": item.get("quantity", 1)
-        })
-
-    return jsonify({"items": enriched_items})
-'''
 @customer_bp.route("/cart/<customer_id>", methods=["GET"])
 @token_required
 def get_cart(current_user, customer_id):
@@ -130,7 +81,7 @@ def get_cart(current_user, customer_id):
                 "images": product.get("images", []),
                 "pairs_with": pairs_with_ids,
                 "pairs_with_images": pairs_with_images,
-                "pairs_with_products": pairs_with_products  # ✅ full data for frontend
+                "pairs_with_products": pairs_with_products  
             },
             "size": item.get("size", "N/A"),
             "quantity": item.get("quantity", 1)
@@ -375,7 +326,7 @@ def checkout(current_user):
     address = data.get("address", "")
     payment_method = data.get("payment_method", "cod")
 
-    # ✅ Fetch Cart
+    #  Fetch Cart
     cart = cart_collection.find_one({"customer_id": customer_id})
     if not cart or not cart["items"]:
         return jsonify({"message": "Cart is empty"}), 400
@@ -406,25 +357,25 @@ def checkout(current_user):
             "vendor_id": product.get("vendor_id") if product.get("added_by") == "vendor" else None
         })
 
-    # ✅ Initialize discount
+    #  Initialize discount
     discount = 0
     applied_offer = None
 
-    # ✅ If coupon/offer code provided
+    #  If coupon/offer code provided
     if coupon_code:
         offer = offers_collection.find_one({"code": coupon_code})
         if offer:
-            # 🟢 Flat Discount (₹100 off)
+            #  Flat Discount (₹100 off)
             if offer.get("type") == "flat" and total >= offer.get("min_purchase", 0):
                 discount = offer.get("amount", 0)
                 applied_offer = offer["title"]
 
-            # 🟢 Percentage Discount (20% off)
+            #  Percentage Discount (20% off)
             elif offer.get("type") == "percent" and total >= offer.get("min_purchase", 0):
                 discount = int((total * offer.get("discount_percent", 0)) / 100)
                 applied_offer = offer["title"]
 
-            # 🟢 BOGO (Buy One Get One Free)
+            #  BOGO (Buy One Get One Free)
             elif offer.get("type") == "bogo":
                 for item in cart["items"]:
                     if item["quantity"] >= 2:
@@ -432,12 +383,12 @@ def checkout(current_user):
                         discount += free_items * product.get("price", 0)
                 applied_offer = "Buy 1 Get 1 Free"
 
-            # 🟢 Free Shipping
+            #  Free Shipping
             elif offer.get("type") == "free_shipping":
                 applied_offer = "Free Shipping"
                 # Free shipping will be applied later
 
-            # 🟢 Flat Price (e.g., ₹399 for Casual Shirt)
+            #  Flat Price (e.g., ₹399 for Casual Shirt)
             elif offer.get("type") == "flat_price":
                 for item in cart["items"]:
                     product = products_collection.find_one({"_id": ObjectId(item["product_id"])})
@@ -447,16 +398,16 @@ def checkout(current_user):
                         discount += (original_price - new_price) * item["quantity"]
                 applied_offer = f"Flat Price {offer.get('flat_price')}"
 
-    # ✅ Final Amount
+    #  Final Amount
     final_total = total - discount
 
-    # ✅ Add Delivery Fee (unless Free Shipping)
+    #  Add Delivery Fee (unless Free Shipping)
     delivery_fee = 0
     if final_total < 500 and (not applied_offer or applied_offer != "Free Shipping"):
         delivery_fee = 50
         final_total += 50
 
-    # ✅ Insert Order
+    #  Insert Order
     orders_collection.insert_one({
         "customer_id": customer_id,
         "order_items": enriched_items,
@@ -471,7 +422,7 @@ def checkout(current_user):
         "created_at": datetime.utcnow()
     })
 
-    # ✅ Clear Cart After Order
+    #  Clear Cart After Order
     cart_collection.delete_one({"customer_id": customer_id})
 
     return jsonify({
@@ -510,7 +461,7 @@ def get_orders(current_user, customer_id):
 
     for order in orders:
         if "order_items" not in order:
-            continue  # Skip orders without items to prevent KeyError
+            continue  
 
         enriched_items = []
         for item in order["order_items"]:
@@ -520,7 +471,7 @@ def get_orders(current_user, customer_id):
 
             product = products_collection.find_one({"_id": product_id})
             if not product:
-                continue  # Skip missing products
+                continue  
 
             enriched_items.append({
                 "product": {
@@ -597,7 +548,7 @@ def get_similar_products(customer_id):
                     {"category": {"$in": list(categories)}},
                     {"brand": {"$in": list(brands)}}
                 ]},
-                {"status": "active"}  # Optional: only show available products
+                {"status": "active"}  
             ]
         }
 
