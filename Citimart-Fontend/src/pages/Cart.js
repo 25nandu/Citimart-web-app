@@ -18,7 +18,7 @@ const Cart = () => {
 
   const fetchCart = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/customer/cart/${customerId}`, {
+      const res = await fetch(`https://citimart-backend.onrender.com/api/customer/cart/${customerId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -31,7 +31,7 @@ const Cart = () => {
 
   const fetchOffersOrSimilar = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/customer/cart/offers/${customerId}`, {
+      const res = await fetch(`https://citimart-backend.onrender.com/api/customer/cart/offers/${customerId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -39,7 +39,7 @@ const Cart = () => {
       if (data.offers?.length > 0) {
         setOffers(data.offers);
       } else {
-        const simRes = await fetch(`http://localhost:5000/customer/cart/similar/${customerId}`, {
+        const simRes = await fetch(`https://citimart-backend.onrender.com/api/customer/cart/similar/${customerId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const simData = await simRes.json();
@@ -50,10 +50,10 @@ const Cart = () => {
     }
   };
 
-  // Fetch wishlist products IDs (you can adjust endpoint as needed)
+  // Fetch wishlist products IDs 
   const fetchWishlist = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/customer/wishlist/${customerId}`, {
+      const res = await fetch(`https://citimart-backend.onrender.com/api/customer/wishlist/${customerId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -77,7 +77,7 @@ const Cart = () => {
   const updateQuantity = async (productId, size, newQuantity) => {
     if (newQuantity < 1) return;
     try {
-      const res = await fetch('http://localhost:5000/customer/cart/update_quantity', {
+      const res = await fetch('https://citimart-backend.onrender.com/api/customer/cart/update_quantity', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ const Cart = () => {
 
   const removeFromCart = async (productId, size) => {
     try {
-      const res = await fetch('http://localhost:5000/customer/cart/remove_item', {
+      const res = await fetch('https://citimart-backend.onrender.com/api/customer/cart/remove_item', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const Cart = () => {
 
   const clearCart = async () => {
     try {
-      await fetch(`http://localhost:5000/customer/cart/clear/${customerId}`, {
+      await fetch(`https://citimart-backend.onrender.com/api/customer/cart/clear/${customerId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -142,7 +142,7 @@ const Cart = () => {
 
   const addToCart = async (productId) => {
     try {
-      const res = await fetch(`http://localhost:5000/customer/cart/add`, {
+      const res = await fetch(`https://citimart-backend.onrender.com/api/customer/cart/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ const Cart = () => {
           customer_id: customerId,
           product_id: productId,
           quantity: 1,
-          size: 'M', // Default or infer from product
+          size: 'M', 
         }),
       });
       if (res.ok) fetchCart();
@@ -164,7 +164,7 @@ const Cart = () => {
 
   const addToWishlist = async (productId) => {
     try {
-      const res = await fetch('http://localhost:5000/customer/wishlist/add', {
+      const res = await fetch('https://citimart-backend.onrender.com/api/customer/wishlist/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ customer_id: customerId, product_id: productId }),
@@ -178,7 +178,7 @@ const Cart = () => {
 
   const removeFromWishlist = async (productId) => {
     try {
-      const res = await fetch('http://localhost:5000/customer/wishlist/remove', {
+      const res = await fetch('https://citimart-backend.onrender.com/api/customer/wishlist/remove', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ customer_id: customerId, product_id: productId }),
