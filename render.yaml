@@ -33,7 +33,7 @@ services:
     name: citimart-frontend
     env: static
     branch: main
-    rootDir: Citimart-Frontend
+    rootDir: Citimart-Fontend
     buildCommand: npm install && npm run build
     staticPublishPath: build
     envVars:
