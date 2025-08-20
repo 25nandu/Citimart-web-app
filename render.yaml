@@ -1,0 +1,31 @@
+# render.yaml - Citimart Deployment with persistent uploads
+
+services:
+  - type: web
+    name: citimart-backend
+    env: python   # Use node if your backend is Node
+    branch: main
+    rootDir: backend   # Change if your backend is elsewhere
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    plan: free
+    disk:
+      name: uploads
+      mountPath: /app/static/uploads
+      sizeGB: 1
+    envVars:
+      DATABASE_URL: <your-database-url>
+      SECRET_KEY: <your-jwt-secret>
+      # Add any other backend env vars here
+
+  - type: web
+    name: citimart-frontend
+    env: node
+    branch: main
+    rootDir: frontend   # Path to your React app
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s build
+    instanceType: free
+    envVars:
+      REACT_APP_BACKEND_URL: https://citimart-backend.onrender.com
+      # Add any other frontend env vars here
