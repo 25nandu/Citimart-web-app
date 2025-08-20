@@ -14,9 +14,10 @@ services:
       mountPath: /app/static/uploads
       sizeGB: 1
     envVars:
-      DATABASE_URL: <your-database-url>
-      SECRET_KEY: <your-jwt-secret>
-      # Add any other backend env vars here
+      DATABASE_URL: "mongodb+srv://citimart02:Citimart1234Nandini@cluster0.ic0ghto.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+      SECRET_KEY: "your_jwt_secret"
+
+      
 
   - type: web
     name: citimart-frontend
