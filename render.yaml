@@ -7,10 +7,6 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
     plan: free
-    disk:
-      name: uploads
-      mountPath: /app/static/uploads
-      sizeGB: 1
     envVars:
       - key: DATABASE_URL
         value: "mongodb+srv://citimart02:Citimart1234Nandini@cluster0.ic0ghto.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -26,6 +22,12 @@ services:
         value: "hzkbkzooafjwcqbi"
       - key: FRONTEND_URL
         value: "https://citimart-frontend.onrender.com"
+      - key: CLOUDINARY_NAME
+        value: "dfybw9dad"
+      - key: CLOUDINARY_API_KEY
+        value: "472475289931536"
+      - key: CLOUDINARY_API_SECRET
+        value: "SYiHW_VpjuneQwhrywx3olunHD8"
 
   - type: web
     name: citimart-frontend
@@ -38,6 +40,5 @@ services:
     envVars:
       - key: REACT_APP_BACKEND_URL
         value: "https://citimart-backend.onrender.com"
-      
 
       
