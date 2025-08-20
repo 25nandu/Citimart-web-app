@@ -31,130 +31,6 @@ def register():
 
     return jsonify({"message": "Registration successful!"}), 201
 
-
-# ------------------ LOGIN (Customer / Admin / Vendor) ------------------
-'''
-@auth_bp.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    role = data.get("role")
-    email = data.get("email")
-    password = data.get("password")
-
-    if not role or not email or not password:
-        return jsonify({"error": "Missing role, email, or password"}), 400
-
-    if role == "vendor":
-        user = vendors_collection.find_one({"email": email, "status": "approved"})
-
-        # ✅ Restriction check
-        if user and user.get("restricted_until"):
-            try:
-                from datetime import datetime
-                restricted_date = datetime.strptime(user["restricted_until"], "%Y-%m-%d")
-                if datetime.utcnow() < restricted_date:
-                    return jsonify({
-                        "error": f"Your account is restricted until {user['restricted_until']}."
-                    }), 403
-            except:
-                pass
-    else:
-        user = users_collection.find_one({"email": email, "role": role})
-
-    try:
-        if not user or not check_password_hash(user.get("password", ""), password):
-            return jsonify({"error": "Invalid credentials"}), 401
-    except Exception:
-        return jsonify({"error": "Corrupted password. Please reset or re-register."}), 500
-
-    token = generate_token(user["_id"], role)
-
-    response = {
-        "token": token,
-        "user": {
-            "id": str(user["_id"]),
-            "role": role,
-            "email": user.get("email", ""),
-            "fullName": user.get("name") or user.get("fullName") or "", 
-            "phone": user.get("phone", "")
-        }
-    }
-
-    return jsonify(response), 200
-
-
-# ------------------ FORGOT PASSWORD (Vendor / Customer) ------------------
-@auth_bp.route('/forgot-password', methods=['POST'])
-def forgot_password():
-    data = request.json
-    email = data.get("email")
-    role = data.get("role")
-
-    collection = vendors_collection if role == "vendor" else users_collection
-    user = collection.find_one({"email": email})
-
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-
-    reset_token = ''.join(random.choices(string.ascii_letters + string.digits, k=32))
-
-    collection.update_one(
-        {"_id": user["_id"]},
-        {"$set": {"reset_token": reset_token}}
-    )
-
-    link = f"http://localhost:3000/reset-password/{reset_token}"
-    send_email(email, "Reset Password", f"Click the link to reset your password: {link}")
-
-    return jsonify({"message": "Password reset link sent"}), 200
-
-
-# ------------------ SET PASSWORD (After Forgot Password) ------------------
-
-import traceback
-
-@auth_bp.route('/set-password', methods=['POST'])
-def set_password():
-    try:
-        data = request.json
-        print("Raw request data:", request.data)
-        print("Parsed JSON:", data)
-
-        reset_token = data.get("token")
-        new_password = data.get("password")
-
-        if not reset_token or not new_password:
-            return jsonify({"error": "Missing token or password"}), 400
-
-        hashed_password = generate_password_hash(new_password)
-
-        user = vendors_collection.find_one({"reset_token": reset_token})
-        collection = vendors_collection
-
-        if not user:
-            user = users_collection.find_one({"reset_token": reset_token})
-            collection = users_collection
-
-        if not user:
-            return jsonify({"error": "Invalid or expired token"}), 404
-
-        collection.update_one(
-            {"_id": user["_id"]},
-            {
-                "$set": {"password": hashed_password},
-                "$unset": {"reset_token": ""}
-            }
-        )
-
-        return jsonify({"message": "Password has been set successfully."}), 200
-
-    except Exception as e:
-        print("Error in set-password:", e)
-        traceback.print_exc()  # 🟢 This shows the exact error + line number
-        return jsonify({"error": "Internal server error"}), 500
-
-'''
-
 # ------------------ LOGIN (Customer) ------------------
 @auth_bp.route('/login/customer', methods=['POST'])
 def login_customer():
@@ -252,7 +128,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 @auth_bp.route("/register-vendor", methods=["POST"])
 def register_vendor():
     try:
-        # ✅ Get form data
+        
         fullName = request.form.get("fullName")
         email = request.form.get("email")
         phone = request.form.get("phone")
@@ -273,11 +149,11 @@ def register_vendor():
         productDesc = request.form.get("productDesc")
         termsAgreed = request.form.get("termsAgreed") == "true"
 
-        # ✅ Parse categories & subcategories (coming as strings from frontend)
+        
         productCategories = eval(request.form.get("productCategories", "[]"))
         clothingSubcategories = eval(request.form.get("clothingSubcategories", "[]"))
 
-        # ✅ Upload documents
+        # Upload documents
         documents = []
         if "documents" in request.files:
             for file in request.files.getlist("documents"):
@@ -286,7 +162,7 @@ def register_vendor():
                 file.save(os.path.join(UPLOAD_FOLDER, unique_name))
                 documents.append(unique_name)
 
-        # ✅ Upload product images
+        # Upload product images
         productImages = []
         if "productImages" in request.files:
             for file in request.files.getlist("productImages"):
@@ -295,7 +171,7 @@ def register_vendor():
                 file.save(os.path.join(UPLOAD_FOLDER, unique_name))
                 productImages.append(unique_name)
 
-        # ✅ Check for duplicate email
+        #  Check for duplicate email
         if vendors_collection.find_one({"email": email}):
             return jsonify({"error": "Email already exists"}), 400
 
@@ -326,7 +202,7 @@ def register_vendor():
             "productImages": productImages,
             "termsAgreed": termsAgreed,
             "status": "pending",
-            "approvedCategories": []  # Admin will approve later
+            "approvedCategories": []  
         }
 
         vendors_collection.insert_one(vendor_data)
