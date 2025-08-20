@@ -7,7 +7,8 @@ load_dotenv()
 def create_app():
     app = Flask(__name__)
     CORS(app, supports_credentials=True, origins=["http://localhost:3000"], methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"])
-    @app.route("/")
+    
+@app.route("/")
     def home():
     return {"message": "Citimart Backend Running 🚀"}
 
