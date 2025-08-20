@@ -29,14 +29,12 @@ services:
       - key: CLOUDINARY_API_SECRET
         value: "SYiHW_VpjuneQwhrywx3olunHD8"
 
-  - type: web
+  - type: static_site
     name: citimart-frontend
-    env: static
     branch: main
     rootDir: citimart-frontend
     buildCommand: npm install && npm run build
-    startCommand: npx serve -s build
-    plan: free
+    staticPublishPath: build
     envVars:
       - key: REACT_APP_BACKEND_URL
         value: "https://citimart-backend.onrender.com"
