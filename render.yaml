@@ -12,21 +12,32 @@ services:
       mountPath: /app/static/uploads
       sizeGB: 1
     envVars:
-      DATABASE_URL: "mongodb+srv://citimart02:Citimart1234Nandini@cluster0.ic0ghto.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-      SECRET_KEY: "your_jwt_secret_here"
-      EMAIL_HOST: "smtp.gmail.com"
-      EMAIL_PORT: "587"
-      EMAIL_HOST_USER: "citimart02@gmail.com"
-      EMAIL_HOST_PASSWORD: "hzkbkzooafjwcqbi"
-      FRONTEND_URL: "https://citimart-frontend.onrender.com"
+      - key: DATABASE_URL
+        value: "mongodb+srv://citimart02:Citimart1234Nandini@cluster0.ic0ghto.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+      - key: SECRET_KEY
+        value: "your_jwt_secret_here"
+      - key: EMAIL_HOST
+        value: "smtp.gmail.com"
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_HOST_USER
+        value: "citimart02@gmail.com"
+      - key: EMAIL_HOST_PASSWORD
+        value: "hzkbkzooafjwcqbi"
+      - key: FRONTEND_URL
+        value: "https://citimart-frontend.onrender.com"
 
   - type: web
     name: citimart-frontend
-    env: node
+    env: static
     branch: main
-    rootDir: Citimart-Fontend
+    rootDir: citimart-frontend
     buildCommand: npm install && npm run build
     startCommand: npx serve -s build
     plan: free
     envVars:
-      REACT_APP_BACKEND_URL: "https://citimart-backend.onrender.com"
+      - key: REACT_APP_BACKEND_URL
+        value: "https://citimart-backend.onrender.com"
+      
+
+      
