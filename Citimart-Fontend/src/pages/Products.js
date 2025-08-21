@@ -77,17 +77,6 @@ const Products = () => {
   return `${CLOUDINARY_BASE}${filename}`;
 };
 
-const getImageUrl = (image) => {
-  if (!image) return "/images/default-placeholder.png";
-
-  // If it's already a full URL (e.g. starts with http or https), return it as-is
-  if (image.startsWith("http")) return image;
-
-  // Otherwise, assume it's a filename (like image.jpg), and construct the Cloudinary URL
-  return `${CLOUDINARY_BASE}${image}`;
-};
-
-
   // Fetch Products
   useEffect(() => {
     fetch("http://localhost:5000/api/products/all")
