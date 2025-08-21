@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "./Products.module.css";
 import { FaTags, FaRupeeSign, FaShoppingBag, FaSort, FaListUl, FaClock } from "react-icons/fa";
 
-// ✅ Complete Categories → Subcategories → Child Categories
+//  Complete Categories → Subcategories → Child Categories
 const categoriesData = {
   Clothing: {
     Men: ["Ethnic Wear", "Jeans", "Joggers", "Pants", "Shirts", "T-Shirts"],
@@ -65,11 +65,18 @@ const Products = () => {
     { label: "Price: High to Low", value: "price_desc" },
   ];
 
-  const getImageUrl = (image) => {
-    if (!image) return "/images/default-placeholder.png";
-    if (image.startsWith("http")) return image;
-    return `http://localhost:5000${image}`;
-  };
+  const CLOUDINARY_BASE = "https://res.cloudinary.com/dfybw9dad/image/upload/uploads/";
+
+const getImageUrl = (image) => {
+  if (!image) return "/images/default-placeholder.png";
+
+  // If it's already a full URL (e.g. starts with http or https), return it as-is
+  if (image.startsWith("http")) return image;
+
+  // Otherwise, assume it's a filename (like image.jpg), and construct the Cloudinary URL
+  return `${CLOUDINARY_BASE}${image}`;
+};
+
 
   // Fetch Products
   useEffect(() => {
