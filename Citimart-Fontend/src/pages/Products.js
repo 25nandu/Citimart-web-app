@@ -66,6 +66,16 @@ const Products = () => {
   ];
 
   const CLOUDINARY_BASE = "https://res.cloudinary.com/dfybw9dad/image/upload/uploads/";
+  const getImageUrl = (image) => {
+  if (!image) return "/images/default-placeholder.png";
+
+  if (image.startsWith("http")) return image;
+
+  // Extract just the filename (strip directory paths)
+  const filename = image.split("/").pop();
+
+  return `${CLOUDINARY_BASE}${filename}`;
+};
 
 const getImageUrl = (image) => {
   if (!image) return "/images/default-placeholder.png";
